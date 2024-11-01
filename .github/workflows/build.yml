@@ -57,4 +57,17 @@ jobs:
           cp buildozer.spec buildozer.spec.bak
           awk '{gsub("python3==3.7.6", "python3==3.9"); gsub("hostpython3==3.7.6", "hostpython3==3.9"); print}' buildozer.spec.bak > buildozer.spec
         env:
-         
+          PATH: "/usr/bin:$PATH"
+
+      - name: Build APK with Buildozer
+        env:
+          ANDROID_SDK_ROOT: $HOME/android-sdk
+          PATH: "$HOME/android-sdk/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:/usr/bin:$PATH"
+        run: |
+          buildozer -v android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug.apk
+          path: bin/*.apk
