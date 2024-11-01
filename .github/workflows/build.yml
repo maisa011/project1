@@ -24,7 +24,7 @@ jobs:
           sudo apt update
           sudo apt install -y libffi-dev libssl-dev
           sudo apt install -y build-essential libsqlite3-dev
-          sudo apt install -y zlib1g-dev libgmp-dev default-jdk wget unzip
+          sudo apt install -y zlib1g-dev libgmp-dev default-jdk wget unzip sed
           pip install --upgrade pip
           pip install buildozer cython
 
