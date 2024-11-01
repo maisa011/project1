@@ -17,12 +17,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.9'
+          python-version: '3.9' # შეცვალეთ საჭირო Python ვერსიით
 
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y libffi-dev libssl-dev
+          sudo apt install -y git libffi-dev libssl-dev
           sudo apt install -y build-essential libsqlite3-dev
           sudo apt install -y zlib1g-dev libgmp-dev default-jdk wget unzip
           pip install --upgrade pip
