@@ -28,6 +28,12 @@ jobs:
           pip install --upgrade pip
           pip install buildozer cython
 
+      - name: Verify git installation
+        run: |
+          git --version
+          which git
+          export PATH="/usr/bin:$PATH"
+
       - name: Download and Install Android SDK
         run: |
           mkdir -p "$HOME/android-sdk/cmdline-tools"
