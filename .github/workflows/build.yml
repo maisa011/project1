@@ -28,6 +28,11 @@ jobs:
           pip install --upgrade pip
           pip install buildozer cython
 
+      - name: Verify sed installation
+        run: |
+          which sed
+          sed --version
+
       - name: Download and Install Android SDK
         run: |
           mkdir -p "$HOME/android-sdk/cmdline-tools"
