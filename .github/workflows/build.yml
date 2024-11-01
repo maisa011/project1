@@ -27,8 +27,6 @@ jobs:
           sudo apt install -y zlib1g-dev libgmp-dev default-jdk wget unzip
           pip install --upgrade pip
           pip install buildozer cython
-        env:
-          PATH: "/usr/bin:$PATH"
 
       - name: Download and Install Android SDK
         run: |
@@ -41,8 +39,6 @@ jobs:
           export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:/usr/bin:$PATH"
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "platforms;android-31" "build-tools;31.0.0"
-        env:
-          PATH: "/usr/bin:$PATH"
 
       - name: Cache Buildozer global directory
         uses: actions/cache@v3
@@ -61,17 +57,4 @@ jobs:
           cp buildozer.spec buildozer.spec.bak
           awk '{gsub("python3==3.7.6", "python3==3.9"); gsub("hostpython3==3.7.6", "hostpython3==3.9"); print}' buildozer.spec.bak > buildozer.spec
         env:
-          PATH: "/usr/bin:$PATH"
-
-      - name: Build APK with Buildozer
-        env:
-          ANDROID_SDK_ROOT: $HOME/android-sdk
-          PATH: "$HOME/android-sdk/cmdline-tools/latest/bin:$HOME/android-sdk/platform-tools:/usr/bin:$PATH"
-        run: |
-          buildozer -v android debug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-debug.apk
-          path: bin/*.apk
+         
