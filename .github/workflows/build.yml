@@ -17,21 +17,16 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.9' # შეცვალეთ საჭირო Python ვერსიით
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
           sudo apt update
           sudo apt install -y libffi-dev libssl-dev
           sudo apt install -y build-essential libsqlite3-dev
-          sudo apt install -y zlib1g-dev libgmp-dev default-jdk wget unzip sed
+          sudo apt install -y zlib1g-dev libgmp-dev default-jdk wget unzip
           pip install --upgrade pip
           pip install buildozer cython
-
-      - name: Verify sed installation
-        run: |
-          which sed
-          sed --version
 
       - name: Download and Install Android SDK
         run: |
@@ -57,13 +52,16 @@ jobs:
           path: .buildozer
           key: buildozer-${{ runner.os }}-${{ env.date }}-${{ hashFiles('buildozer.spec') }}
 
+      - name: Modify buildozer.spec for Python version
+        run: |
+          cp buildozer.spec buildozer.spec.bak
+          awk '{gsub("python3==3.7.6", "python3==3.9"); gsub("hostpython3==3.7.6", "hostpython3==3.9"); print}' buildozer.spec.bak > buildozer.spec
+
       - name: Build APK with Buildozer
         env:
           ANDROID_SDK_ROOT: $HOME/android-sdk
           PATH: $HOME/android-sdk/cmdline-tools/latest/bin:$HOME/android-sdk/platform-tools:$PATH
         run: |
-          sed -i 's/python3==3.7.6/python3==3.9/' buildozer.spec
-          sed -i 's/hostpython3==3.7.6/hostpython3==3.9/' buildozer.spec
           buildozer -v android debug
 
       - name: Upload APK
